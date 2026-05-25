@@ -3,8 +3,6 @@ import QtQuick.Layouts
 import QtMultimedia
 import PipOS
 
-import "../../JSONListModel"
-
 Rectangle {
     id: root
     color: "black"
@@ -21,30 +19,15 @@ Rectangle {
         }
         width: 400
 
-        JSONListModel {
-            id: inventory
-            data: DataProvider.data
+        DataProvider {
+            id: questsData
             query: ""
-            sortFunction: (a, b) => {
-                              // First, sort by enabled and active status
-                              const aStatus = (a.enabled
-                                               && a.active) ? 2 : (a.enabled ? 1 : 0)
-                              const bStatus = (b.enabled
-                                               && b.active) ? 2 : (b.enabled ? 1 : 0)
-
-                              if (aStatus !== bStatus) {
-                                  return bStatus - aStatus // Higher status numbers come first
-                              }
-
-                              // If status is the same, sort alphabetically by text
-                              return a.text.localeCompare(b.text)
-                          }
         }
 
         ListView {
             id: list
             anchors.fill: parent
-            model: inventory.model
+            model: questsData.data
             spacing: 5
 
             delegate: RowLayout {
@@ -153,10 +136,10 @@ Rectangle {
                     anchors.rightMargin: 20
 
                     color: "white"
-                    text: model.text || ''
+                    text: modelData.text || ''
                     wrapMode: Text.WordWrap
                     font.pixelSize: 26
-                    font.strikeout: model.completed
+                    font.strikeout: modelData.completed || false
                 }
             }
         }
@@ -166,7 +149,25 @@ Rectangle {
         State {
             name: "MAIN"
             PropertyChanges {
-                inventory.query: "Quests"
+                questsData.query: "$.Quests[*]"
+            }
+        },
+        State {
+            name: "SIDE"
+            PropertyChanges {
+                questsData.query: "$.Quests[*]"
+            }
+        },
+        State {
+            name: "DAILY"
+            PropertyChanges {
+                questsData.query: "$.Quests[*]"
+            }
+        },
+        State {
+            name: "EVENT"
+            PropertyChanges {
+                questsData.query: "$.Quests[*]"
             }
         }
     ]
