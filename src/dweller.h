@@ -31,6 +31,38 @@ private:
     int m_quantity;
 };
 
+class PerkItem : public QObject
+{
+    Q_OBJECT
+    QML_ELEMENT
+    Q_PROPERTY(QString name READ name CONSTANT FINAL)
+    Q_PROPERTY(int stars READ stars CONSTANT FINAL)
+    Q_PROPERTY(int maxStars READ maxStars CONSTANT FINAL)
+    Q_PROPERTY(QString description READ description CONSTANT FINAL)
+    Q_PROPERTY(QString image READ image CONSTANT FINAL)
+
+public:
+    explicit PerkItem(QObject *parent = nullptr,
+                      QString name = "-",
+                      int stars = 0,
+                      int maxStars = 0,
+                      QString description = "",
+                      QString image = "");
+
+    QString name() const;
+    int stars() const;
+    int maxStars() const;
+    QString description() const;
+    QString image() const;
+
+private:
+    QString m_name;
+    int m_stars;
+    int m_maxStars;
+    QString m_description;
+    QString m_image;
+};
+
 class Dweller : public QObject
 {
     Q_OBJECT
@@ -76,6 +108,7 @@ class Dweller : public QObject
 
     // Collections inventory
     Q_PROPERTY(QVariantList collections READ collections CONSTANT FINAL)
+    Q_PROPERTY(QVariantList perks READ perks CONSTANT FINAL)
 
 public:
     explicit Dweller(QObject *parent = nullptr);
@@ -105,6 +138,7 @@ public:
     float healthRightLeg() const;
 
     QVariantList collections();
+    QVariantList perks();
 
 public slots:
     void setName(const QString &newName);
@@ -156,5 +190,6 @@ private:
 } // namespace PipOS
 
 Q_DECLARE_METATYPE(PipOS::CollectionItem *);
+Q_DECLARE_METATYPE(PipOS::PerkItem *);
 
 #endif // DWELLER_H

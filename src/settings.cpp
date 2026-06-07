@@ -36,7 +36,52 @@ void Settings::initializeDefaults() {
     }
   }
 
+  initializeDefaultPerks();
   m_settings.sync(); // Ensure all changes are written to disk
+}
+
+void Settings::initializeDefaultPerks()
+{
+    m_settings.beginGroup("Perks");
+    const bool hasPerks = !m_settings.childGroups().isEmpty();
+    m_settings.endGroup();
+
+    if (hasPerks)
+        return;
+
+    m_settings.setValue("Perks/01/name", "Barbarian");
+    m_settings.setValue("Perks/01/stars", 2);
+    m_settings.setValue("Perks/01/maxStars", 10);
+    m_settings.setValue("Perks/01/description",
+                        "Critical Hits with unarmed and melee attacks do +5% damage.");
+  m_settings.setValue("Perks/01/image", "/images/perks/grognak.webp");
+
+    m_settings.setValue("Perks/02/name", "Medic");
+    m_settings.setValue("Perks/02/stars", 1);
+    m_settings.setValue("Perks/02/maxStars", 1);
+    m_settings.setValue("Perks/02/description",
+                        "Stimpaks restore 40% of lost Health, and RadAway removes 40% of radiation.");
+  m_settings.setValue("Perks/02/image", "/images/perks/grognak.webp");
+
+    m_settings.setValue("Perks/03/name", "V.A.N.S.");
+    m_settings.setValue("Perks/03/stars", 1);
+    m_settings.setValue("Perks/03/maxStars", 1);
+    m_settings.setValue("Perks/03/description",
+                        "Let Vault-Tec guide you! The path to your closest quest target is displayed in V.A.T.S.");
+  m_settings.setValue("Perks/03/image", "/images/perks/grognak.webp");
+
+    m_settings.setValue("Perks/04/name", "Wasteland Survival 8");
+    m_settings.setValue("Perks/04/stars", 1);
+    m_settings.setValue("Perks/04/maxStars", 1);
+    m_settings.setValue("Perks/04/description", "Take 5% less damage from melee attacks.");
+  m_settings.setValue("Perks/04/image", "/images/perks/grognak.webp");
+
+    m_settings.setValue("Perks/05/name", "Well Rested");
+    m_settings.setValue("Perks/05/stars", 1);
+    m_settings.setValue("Perks/05/maxStars", 1);
+    m_settings.setValue("Perks/05/description",
+                        "You had a great sleep, and feel alert and invigorated! +10% XP earned for a limited time.");
+  m_settings.setValue("Perks/05/image", "/images/perks/grognak.webp");
 }
 
 QStringList Settings::getAllKeys(QSettings &settings)

@@ -157,6 +157,28 @@ Caps = 1234
 Stamps = 3
 ```
 
+### Perks
+
+Perks displayed on the **PERKS** tab. The numbered groups control display order.
+`stars` is the number of filled stars and `maxStars` is the total number of stars.
+Images can use bundled resource paths such as `/images/perks/grognak.webp` or file URLs. WebP is preferred for smaller size; legacy SVG/PNG paths are still accepted if present.
+
+```ini
+[Perks/01]
+name=Barbarian
+stars=2
+maxStars=10
+description=Critical Hits with unarmed and melee attacks do +5% damage.
+image=/images/perks/grognak.webp
+
+[Perks/02]
+name=Well Rested
+stars=1
+maxStars=1
+description=You had a great sleep, and feel alert and invigorated! +10% XP earned for a limited time.
+image=file:///path/to/perk-image.svg
+```
+
 ### Radio
 
 Radio stations should be `.wav` files that are placed into a directory together. The name of the file will have the `.wav` extension stripped and that will be used for the station name. ie. naming a file `Classical Radio.wav` will create a radio station named `Classical Radio`. By default the directory used will be the directory the app is running in, but you can configure the path to look for radio stations as follows:

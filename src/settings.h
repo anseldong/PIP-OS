@@ -91,6 +91,7 @@ private:
   };
 
   void initializeDefaults();
+  void initializeDefaultPerks();
   QStringList getAllKeys(QSettings &settings);
 
   // Helper method to create the default settings map

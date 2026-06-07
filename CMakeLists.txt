@@ -58,8 +58,8 @@ set(QML
     qml/Pages/MAP/MAP.qml
     qml/Pages/RADIO/FMRadio.qml
     qml/Pages/RADIO/RADIO.qml
-    qml/Pages/STAT/Collections.qml
     qml/Pages/STAT/Effects.qml
+    qml/Pages/STAT/Perks.qml
     qml/Pages/STAT/Special.qml
     qml/Pages/STAT/STAT.qml
     qml/Pages/STAT/Status.qml
@@ -149,6 +149,9 @@ qt_add_resources(appPipOS "images"
         assets/images/initiating.gif
         assets/images/radio_axis.svg
         assets/images/map_marker.svg
+    assets/images/perks/grognak.webp
+    # Keep SVG as optional fallback if you still have it
+    assets/images/perks/grognak.svg
         assets/images/quest_default.gif
         assets/images/SPECIAL/Strength.gif
         assets/images/SPECIAL/Perception.gif

@@ -10,7 +10,7 @@ C.Page {
 
     property alias subMenuIndex: subMenu.currentIndex
     property int subMenuCenter
-    property variant pages: ["STATUS", "EFFECTS", "SPECIAL", "COLLECTIONS"]
+    property variant pages: ["STATUS", "EFFECTS", "SPECIAL", "PERKS"]
 
     background: Rectangle {
         color: "black"
@@ -37,7 +37,7 @@ C.Page {
         Special {
             enabled: StackLayout.isCurrentItem
         }
-        Collections {
+        Perks {
             enabled: StackLayout.isCurrentItem
         }
     }

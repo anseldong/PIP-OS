@@ -1,4 +1,7 @@
 #include "dweller.h"
+
+#include <utility>
+
 namespace PipOS {
 
 Dweller::Dweller(QObject *parent)
@@ -285,6 +288,73 @@ QVariantList Dweller::collections()
     return c;
 }
 
+QVariantList Dweller::perks()
+{
+    QVariantList p;
+
+    m_settings.beginGroup("Perks");
+
+    QStringList groups = m_settings.childGroups();
+    groups.sort(Qt::CaseInsensitive);
+
+    for (const QString &group : groups) {
+        m_settings.beginGroup(group);
+
+        const QString name = m_settings.value("name", group).toString();
+        const int stars = m_settings.value("stars", m_settings.value("rank", 1)).toInt();
+        const int maxStars = m_settings.value("maxStars", m_settings.value("maxRank", stars)).toInt();
+        const QString description = m_settings.value("description").toString();
+    const QString image = m_settings.value("image", "/images/perks/grognak.webp").toString();
+
+        p.append(QVariant::fromValue(
+            new PerkItem(this, name, stars, maxStars, description, image)));
+
+        m_settings.endGroup();
+    }
+
+    m_settings.endGroup();
+
+    if (p.isEmpty()) {
+        p.append(QVariant::fromValue(new PerkItem(
+            this,
+            "Barbarian",
+            2,
+            10,
+            "Critical Hits with unarmed and melee attacks do +5% damage.",
+            "/images/perks/grognak.webp")));
+        p.append(QVariant::fromValue(new PerkItem(
+            this,
+            "Medic",
+            1,
+            1,
+            "Stimpaks restore 40% of lost Health, and RadAway removes 40% of radiation.",
+            "/images/perks/grognak.webp")));
+        p.append(QVariant::fromValue(new PerkItem(
+            this,
+            "V.A.N.S.",
+            1,
+            1,
+            "Let Vault-Tec guide you! The path to your closest quest target is displayed in V.A.T.S.",
+            "/images/perks/grognak.webp")));
+        p.append(QVariant::fromValue(new PerkItem(
+            this,
+            "Wasteland Survival 8",
+            1,
+            1,
+            "Take 5% less damage from melee attacks.",
+            "/images/perks/grognak.webp")));
+        p.append(QVariant::fromValue(new PerkItem(
+            this,
+            "Well Rested",
+            1,
+            1,
+            "You had a great sleep, and feel alert and invigorated! +10% XP earned for a limited time.",
+            "/images/perks/grognak.webp")));
+    }
+
+    return p;
+}
+
 CollectionItem::CollectionItem(QObject *parent, QString name, int quantity)
 {
     m_name = name;
@@ -307,6 +377,46 @@ void CollectionItem::setQuantity(int newQuantity)
         return;
     m_quantity = newQuantity;
     emit quantityChanged();
+}
+
+PerkItem::PerkItem(QObject *parent,
+                   QString name,
+                   int stars,
+                   int maxStars,
+                   QString description,
+                   QString image)
+    : QObject(parent)
+    , m_name(std::move(name))
+    , m_stars(stars)
+    , m_maxStars(maxStars)
+    , m_description(std::move(description))
+    , m_image(std::move(image))
+{
+}
+
+QString PerkItem::name() const
+{
+    return m_name;
+}
+
+int PerkItem::stars() const
+{
+    return m_stars;
+}
+
+int PerkItem::maxStars() const
+{
+    return m_maxStars;
+}
+
+QString PerkItem::description() const
+{
+    return m_description;
+}
+
+QString PerkItem::image() const
+{
+    return m_image;
 }
 
 } // namespace PipOS
