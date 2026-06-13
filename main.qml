@@ -58,8 +58,9 @@ Window {
                                     root.height / bootLoader.height) * Settings.scale
                     },
                     Translate {
-                        x: Settings.xOffset
-                        y: Settings.yOffset
+                        // center the scaled loader in the window, then apply user offsets
+                        x: (root.width - bootLoader.width * bootLoaderScale.xScale) / 2 + Settings.xOffset
+                        y: (root.height - bootLoader.height * bootLoaderScale.yScale) / 2 + Settings.yOffset
                     }
                 ]
 
@@ -108,8 +109,9 @@ Window {
                                     root.height / appLoader.height) * Settings.scale
                     },
                     Translate {
-                        x: Settings.xOffset
-                        y: Settings.yOffset
+                        // center the scaled loader in the window, then apply user offsets
+                        x: (root.width - appLoader.width * appLoaderScale.xScale) / 2 + Settings.xOffset
+                        y: (root.height - appLoader.height * appLoaderScale.yScale) / 2 + Settings.yOffset
                     }
                 ]
 
