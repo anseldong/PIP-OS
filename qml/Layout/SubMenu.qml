@@ -11,8 +11,8 @@ ListView {
     height: 42
 
     highlightRangeMode: ListView.StrictlyEnforceRange
-    preferredHighlightBegin: centerPoint - (currentItem.width / 2)
-    preferredHighlightEnd: centerPoint + (currentItem.width / 2)
+    preferredHighlightBegin: centerPoint - (currentItem ? (currentItem.width / 2) : 0)
+    preferredHighlightEnd: centerPoint + (currentItem ? (currentItem.width / 2) : 0)
     highlightResizeDuration: 0
 
     delegate: Text {

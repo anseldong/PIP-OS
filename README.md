@@ -215,6 +215,53 @@ If you don't have a valid GPS source, you can also use static data, go to https:
 positionSource=file:///path/to/location_data.txt
 ```
 
+## Hardware Controls
+
+### Rotary Encoder Submenu Controller
+
+You can control Pipboy's submenus (STAT, ITEM, DATA) and button select using a physical rotary encoder with a push button connected to the Raspberry Pi GPIO pins.
+
+#### Default Wiring (BCM GPIO)
+- **CLK (A)**: GPIO 17
+- **DT (B)**: GPIO 27
+- **SW (Button)**: GPIO 22
+- **VCC**: 3.3V
+- **GND**: Ground
+
+#### Requirements
+```sh
+sudo apt install python3-gpiozero python3-evdev
+```
+
+Ensure your user is in the `input` group to emit virtual keyboard events via `/dev/uinput`:
+```sh
+sudo usermod -aG input $USER
+```
+
+#### Running the Controller
+```sh
+python3 scripts/rotary_controller.py
+```
+
+- **Rotate Clockwise**: Next submenu tab (`SUB_TAB_NEXT` / Right Arrow)
+- **Rotate Counter-Clockwise**: Previous submenu tab (`SUB_TAB_PREVIOUS` / Left Arrow)
+- **Press Button**: Select (`BUTTON_SELECT` / Space)
+
+Options:
+- `--button-action {select,enter,cycle_tab,next_sub,prev_sub}`: Action when encoder button is pressed (default: `select`).
+- `--invert`: Invert rotation direction.
+- `--simulate`: Test without GPIO hardware using keyboard inputs (`>` for CW, `<` for CCW, `b` for button).
+
+#### Running as a systemd Service
+A service unit is provided in `scripts/pipboy-rotary.service`:
+```sh
+mkdir -p ~/.config/systemd/user
+cp scripts/pipboy-rotary.service ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable pipboy-rotary.service
+systemctl --user start pipboy-rotary.service
+```
+
 ## Building from source
 
 To build from source on Debian 13, first install some of the pre-requisites:

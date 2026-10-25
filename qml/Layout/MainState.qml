@@ -84,26 +84,44 @@ Item {
         source: "/sounds/horizontal_tab.wav"
     }
 
+    function nextSubMenu() {
+        if (page.currentIndex === 0) {
+            statPage.subMenuIndex = (statPage.subMenuIndex + 1) % statPage.pages.length
+            sfxRotary.play()
+        } else if (page.currentIndex === 1) {
+            itemPage.subMenuIndex = (itemPage.subMenuIndex + 1) % itemPage.pages.length
+            sfxRotary.play()
+        } else if (page.currentIndex === 2) {
+            dataPage.subMenuIndex = (dataPage.subMenuIndex + 1) % dataPage.pages.length
+            sfxRotary.play()
+        }
+    }
+
+    function prevSubMenu() {
+        if (page.currentIndex === 0) {
+            statPage.subMenuIndex = (statPage.subMenuIndex - 1 + statPage.pages.length) % statPage.pages.length
+            sfxRotary.play()
+        } else if (page.currentIndex === 1) {
+            itemPage.subMenuIndex = (itemPage.subMenuIndex - 1 + itemPage.pages.length) % itemPage.pages.length
+            sfxRotary.play()
+        } else if (page.currentIndex === 2) {
+            dataPage.subMenuIndex = (dataPage.subMenuIndex - 1 + dataPage.pages.length) % dataPage.pages.length
+            sfxRotary.play()
+        }
+    }
+
     Shortcut {
         sequence: Settings.getKeySequence(Events.SUB_TAB_NEXT)
         context: Qt.ApplicationShortcut
         autoRepeat: false
-        onActivated: {
-
-            // list.goToNext()
-            // sfxRotary.play()
-        }
+        onActivated: root.nextSubMenu()
     }
 
     Shortcut {
         sequence: Settings.getKeySequence(Events.SUB_TAB_PREVIOUS)
         context: Qt.ApplicationShortcut
         autoRepeat: false
-        onActivated: {
-
-            // list.goToPrevious()
-            // sfxRotary.play()
-        }
+        onActivated: root.prevSubMenu()
     }
 
     Shortcut {

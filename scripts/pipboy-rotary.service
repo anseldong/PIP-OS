@@ -1,0 +1,13 @@
+[Unit]
+Description=PipBoy Rotary Encoder Submenu Controller
+After=pip-os.user.service
+PartOf=pip-os.user.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 %h/PIP-OS/scripts/rotary_controller.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target
