@@ -73,7 +73,7 @@ set(QML_IMPORT_PATH
     "${QML_DIRS}"
     CACHE STRING "Qt Creator extra qml import paths")
 
-find_package(Qt6 REQUIRED COMPONENTS Core Quick Multimedia Graphs Location)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Multimedia Graphs Location Network)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -118,6 +118,7 @@ target_link_libraries(
         Qt6::Quick
         Qt6::Gui
         Qt6::Core
+        Qt6::Network
         Qt6::Multimedia
         Qt6::Graphs
         Qt6::Location

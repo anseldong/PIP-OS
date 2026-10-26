@@ -1,10 +1,14 @@
 #pragma once
 
 #include <QGuiApplication>
+#include <QLocalServer>
+#include <QLocalSocket>
 #include <QObject>
+#include <QProcess>
 #include <QQmlApplicationEngine>
 #include <jsoncons/json.hpp>
 
+#include "events.h"
 #include "radio.h"
 #include "settings.h"
 
@@ -15,25 +19,35 @@ class App : public QObject {
   Q_PROPERTY(Radio *radio READ radio CONSTANT)
 
 public:
-  explicit App(QObject *parent = nullptr) : QObject(parent) {
-    m_mainWindowEngine = new QQmlApplicationEngine(parent);
-    m_settings = new Settings(this);
-    m_radio = new Radio(this);
-	m_externalData = jsoncons::json::parse(R"({
-    })");
-  }
+  explicit App(QObject *parent = nullptr);
+  ~App() override;
 
   void init();
 
   // Getters
-  QQmlApplicationEngine mainWindowEngine() const { return m_mainWindowEngine; }
+  QQmlApplicationEngine *mainWindowEngine() const { return m_mainWindowEngine; }
   Radio *radio() const { return m_radio; }
   jsoncons::json externalData() const { return m_externalData; }
 
-  private:
+signals:
+  void userEvent(int event);
+  void subTabNext();
+  void subTabPrevious();
+  void buttonSelect();
+
+public slots:
+  void dispatchUserEvent(Events::UserEvent event);
+  void handleCommand(const QString &command);
+
+private:
+  void startControlServer();
+  void startRotaryProcess();
+
   QQmlApplicationEngine *m_mainWindowEngine = nullptr;
   Settings *m_settings = nullptr;
   Radio *m_radio = nullptr;
   jsoncons::json m_externalData = nullptr;
+  QLocalServer *m_localServer = nullptr;
+  QProcess *m_rotaryProcess = nullptr;
 };
 } // namespace PipOS

@@ -124,6 +124,21 @@ Item {
         onActivated: root.prevSubMenu()
     }
 
+    Connections {
+        target: app
+        function onSubTabNext() {
+            root.nextSubMenu()
+        }
+        function onSubTabPrevious() {
+            root.prevSubMenu()
+        }
+        function onButtonSelect() {
+            if (page.currentIndex === 0) {
+                root.nextSubMenu()
+            }
+        }
+    }
+
     Shortcut {
         sequence: Settings.getKeySequence(Events.TAB_STAT)
         context: Qt.ApplicationShortcut
